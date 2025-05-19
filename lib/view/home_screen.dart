@@ -12,6 +12,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.travel_explore),
         title: Text("Thrill Quest"),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 175, 216, 176),
