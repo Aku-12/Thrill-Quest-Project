@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:thrill_quest/View/login_screen.dart';
+import 'package:thrill_quest/View/splash_screen.dart';
 
 
 class App extends StatelessWidget {
@@ -7,7 +9,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/':(context)=>SplashScreen(),
+        '/login':(context)=>LoginScreen(),
+
+      },
       debugShowCheckedModeBanner: false,
-      home:SplashScreen());      
+    );     
   }
 }

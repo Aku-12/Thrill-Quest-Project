@@ -6,8 +6,11 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 4),(){
-      
+    Future.delayed(const Duration(seconds: 4),(
+    ){
+            // ignore: use_build_context_synchronously
+            Navigator.pushReplacementNamed(context, '/login');
+
     });
     return Scaffold(
       body:Padding(padding: const EdgeInsets.all(8.0),
