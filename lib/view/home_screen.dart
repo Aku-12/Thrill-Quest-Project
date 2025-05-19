@@ -13,6 +13,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Thrill Quest"),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 175, 216, 176),
       ),
     );
   }
