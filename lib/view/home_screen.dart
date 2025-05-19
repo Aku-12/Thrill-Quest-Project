@@ -15,7 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text("Thrill Quest"),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 175, 216, 176),
-      ),
+      ), 
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Hey, Akash Good Morning!"),
+        )
+      ],),     
     );
   }
 }
