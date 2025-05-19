@@ -25,13 +25,21 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Icon(Icons.lock_outline, size: 80, color: Colors.green[700]),
+                  child: Icon(
+                    Icons.lock_outline,
+                    size: 80,
+                    color: Colors.green[700],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
                     'Welcome Back!',
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.green[800]),
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[800],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -48,7 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     prefixIcon: const Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -65,7 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.lock_outline),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -92,12 +104,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate() && emailController.text == "admin@gmail.com" && passwordController.text == "admin123") {
+                      if (formKey.currentState!.validate() &&
+                          emailController.text == "admin@gmail.com" &&
+                          passwordController.text == "admin123") {
                         Navigator.pushReplacementNamed(context, "/homeScreen");
-                        
-                      } else{
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Invalid email or password'))
+                          const SnackBar(
+                            content: Text('Invalid email or password'),
+                          ),
                         );
                       }
                     },
@@ -110,7 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: const Text(
                       'Login',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                      ),
                     ),
                   ),
                 ),
@@ -127,7 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           TextSpan(
                             text: 'Sign Up',
-                          
                             style: TextStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
