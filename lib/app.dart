@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thrill_quest/View/login_screen.dart';
 import 'package:thrill_quest/View/splash_screen.dart';
+import 'package:thrill_quest/view/home_screen.dart';
 import 'package:thrill_quest/view/signup_screen.dart';
 
 
@@ -14,7 +15,8 @@ class App extends StatelessWidget {
       routes: {
         '/':(context)=>SplashScreen(),
         '/login':(context)=>LoginScreen(),
-        '/signup':(context)=>SignupScreen()
+        '/signup':(context)=>SignupScreen(),
+        '/homeScreen':(context)=>HomeScreen()
 
       },
       debugShowCheckedModeBanner: false,

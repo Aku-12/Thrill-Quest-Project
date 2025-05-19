@@ -92,8 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        // Login Logic
+                      if (formKey.currentState!.validate() && emailController.text == "admin@gmail.com" && passwordController.text == "admin123") {
+                        Navigator.pushReplacementNamed(context, "/homeScreen");
+                        
+                      } else{
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Invalid email or password'))
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
