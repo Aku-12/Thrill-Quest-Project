@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -25,23 +27,25 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Icon(Icons.lock_outline, size: 80, color: Colors.green[700]),
+                  child: Icon(Icons.person_add_alt_1_outlined, size: 80, color: Colors.green[700]),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    'Welcome Back!',
+                    'Create Account',
                     style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.green[800]),
                   ),
                 ),
                 const SizedBox(height: 10),
                 Center(
                   child: Text(
-                    'Login to your account',
+                    'Sign up to get started',
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                   ),
                 ),
                 const SizedBox(height: 30),
+
+                // Email
                 TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -58,10 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
+
+                // Password
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
-                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.lock_outline),
@@ -70,30 +75,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
                     }
                     return null;
                   },
                 ),
-                const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle Forgot Password
-                    },
-                    child: const Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: Colors.green),
-                    ),
+                const SizedBox(height: 20),
+
+                // Confirm Password
+                TextFormField(
+                  controller: confirmPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    prefixIcon: const Icon(Icons.lock_open_outlined),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please confirm your password';
+                    } else if (value != passwordController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
+
+                // Signup Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
-                        // Login Logic
+                        // Handle signup logic
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -104,25 +120,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     child: const Text(
-                      'Login',
+                      'Sign Up',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
+
+                // Redirect to Login
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacementNamed(context, "/signup");
+                      Navigator.pushReplacementNamed(context, '/login');
+                      
+                      
                     },
                     child: RichText(
                       text: const TextSpan(
-                        text: "Don't have an account? ",
+                        text: "Already have an account? ",
                         style: TextStyle(color: Colors.black),
                         children: [
                           TextSpan(
-                            text: 'Sign Up',
-                          
+                            text: 'Login',
                             style: TextStyle(
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
