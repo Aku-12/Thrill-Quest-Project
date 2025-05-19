@@ -112,6 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Invalid email or password'),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.green,
                           ),
                         );
                       }
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black
+                        color: Colors.black,
                       ),
                     ),
                   ),
