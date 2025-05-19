@@ -27,13 +27,21 @@ class _SignupScreenState extends State<SignupScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Icon(Icons.person_add_alt_1_outlined, size: 80, color: Colors.green[700]),
+                  child: Icon(
+                    Icons.person_add_alt_1_outlined,
+                    size: 80,
+                    color: Colors.green[700],
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
                     'Create Account',
-                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.green[800]),
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[800],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -52,7 +60,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     labelText: 'Email',
                     prefixIcon: const Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -70,7 +80,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.lock_outline),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -90,7 +102,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                     prefixIcon: const Icon(Icons.lock_open_outlined),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -121,7 +135,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: const Text(
                       'Sign Up',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -132,8 +150,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.pushReplacementNamed(context, '/login');
-                      
-                      
                     },
                     child: RichText(
                       text: const TextSpan(
