@@ -8,6 +8,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+int currentIndex = 0;
+
  @override
   Widget build(BuildContext context) {
     final List<String> categories = [
@@ -28,23 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
       {'title': 'Zip Flyer', 'image': 'assets/image/zipflyer.jpg'},
     ];
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        title: const Text(
-          "Thrill Quest",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.green,
-            fontSize: 22,
-          ),
-        ),
-      ),
-      body: Padding(
+    final List<Widget> _pages = [
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
@@ -147,6 +134,28 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      Center(child: Text('Explore Screen'),),
+      Center(child: Text('Settings Screen'),),
+      Center(child: Text('Profile Screen'),),
+    ];
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        title: const Text(
+          "Thrill Quest",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.green,
+            fontSize: 22,
+          ),
+        ),
+      ),
+      body: _pages[currentIndex],
       bottomNavigationBar: BottomAppBar(
         height: 60,
         color: Colors.grey[200],
@@ -155,11 +164,29 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.home_sharp)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.explore)),
+            IconButton(onPressed: (){
+              setState(() {
+                currentIndex = 0;
+              });
+            }, icon: Icon(Icons.home_sharp, color: currentIndex == 0 ? Colors.green : Colors.grey)),
+
+            IconButton(onPressed: (){
+              setState(() {
+                currentIndex = 1;
+              });
+            }, icon: Icon(Icons.explore, color: currentIndex == 1 ? Colors.green : Colors.grey)),
+
             const SizedBox(width: 48,),
-            IconButton(onPressed: (){}, icon: Icon(Icons.person)),
-            IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
+
+            IconButton(onPressed: (){
+              setState(() {
+                currentIndex = 2;
+              });
+            }, icon: Icon(Icons.settings, color: currentIndex == 2 ? Colors.green : Colors.grey )),
+
+            IconButton(onPressed: (){
+              setState(() => currentIndex = 3);
+            }, icon: Icon(Icons.person, color: currentIndex == 3 ? Colors.green : Colors.grey)),
           ],
         ),
       ),
