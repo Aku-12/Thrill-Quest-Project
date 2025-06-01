@@ -53,7 +53,7 @@ int currentIndex = 0;
                 style: TextStyle(fontSize: 20),
                 children: [
                   TextSpan(
-                    text: 'Good Afternoon!',
+                    text: 'Good Morning!',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
