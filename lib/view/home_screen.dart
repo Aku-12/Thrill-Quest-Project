@@ -41,7 +41,7 @@ int currentIndex = 0;
                 SizedBox(width: 4),
                 Text("SHIP TO", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
                 SizedBox(width: 4),
-                Text("Bhaktapur, Nepal", style: TextStyle(fontWeight: FontWeight.w500)),
+                Text("Kathmandu, Nepal", style: TextStyle(fontWeight: FontWeight.w500)),
                 Spacer(),
                 Icon(Icons.settings, color: Colors.black54),
               ],
