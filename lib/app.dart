@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thrill_quest/View/login_screen.dart';
 import 'package:thrill_quest/View/splash_screen.dart';
+import 'package:thrill_quest/theme/mytheme.dart';
 import 'package:thrill_quest/view/home_screen.dart';
 import 'package:thrill_quest/view/signup_screen.dart';
 
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
 
       },
       debugShowCheckedModeBanner: false,
+      theme: getTheme(),
     );     
   }
 }
