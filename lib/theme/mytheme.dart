@@ -4,7 +4,7 @@ ThemeData getTheme(){
   return ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.amber,
-        fontFamily: "Poppins Black",
+        fontFamily: "Poppins Regular",
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(
           backgroundColor: const Color.fromARGB(255, 210, 160, 86),
