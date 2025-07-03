@@ -7,23 +7,29 @@ import 'package:thrill_quest/features/auth/domain/repository/auth_repository.dar
 
 class AuthRegisterParams extends Equatable {
   final String email;
-  final String fullName;
+  final String fName;
+  final String lName;
+  final String phoneNo;
   final String password;
  
   const AuthRegisterParams({
     required this.email,
-    required this.fullName,
+    required this.fName,    
+    required this.lName,    
+    required this.phoneNo,    
     required this.password,
   });
  
   const AuthRegisterParams.initial({
     required this.email,
-    required this.fullName,
+    required this.fName,
+    required this.lName,
+    required this.phoneNo,
     required this.password,
   });
  
   @override
-  List<Object?> get props => [email, fullName, password];
+  List<Object?> get props => [email, fName,lName, phoneNo, password];
 }
  
 class AuthRegisterUsecase implements UseCaseWithParams<void, AuthRegisterParams>{
@@ -36,7 +42,9 @@ class AuthRegisterUsecase implements UseCaseWithParams<void, AuthRegisterParams>
   Future<Either<Failure, void>> call(AuthRegisterParams params) {
     final userEntity = UserEntity(
       email: params.email,
-      fullName: params.fullName,
+      fName: params.fName,
+      lName: params.lName,
+      phoneNo: params.phoneNo,
       password: params.password,
     );
  
