@@ -1,35 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thrill_quest/core/common/snackbar/my_snack_bar.dart';
 import 'package:thrill_quest/features/auth/domain/use_case/auth_login_usecase.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_event.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_state.dart';
+import 'package:thrill_quest/features/home/presentation/view/home_screen.dart';
 
 class LoginViewModel extends Bloc<LoginEvent, LoginState> {
   final AuthLoginUsecase _authLoginUsecase;
 
   LoginViewModel(this._authLoginUsecase) : super(LoginState()) {
-    on<LoginEmailChanged>(_onEmailChanged);
-    on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
+    on<NavigateToDashboardEvent>(_onNavigateToDashboard);
   }
 
-  void _onEmailChanged(LoginEmailChanged event, Emitter<LoginState> emit) {
-    final email = event.email;
-
-    emit(state.copyWith(email: email));
-  }
-
-  void _onPasswordChanged(
-    LoginPasswordChanged event,
+  void _onNavigateToDashboard(
+    NavigateToDashboardEvent event,
     Emitter<LoginState> emit,
   ) {
-    final password = event.password;
-
-    emit(state.copyWith(password: password));
+    if (event.context.mounted) {
+      Navigator.pushReplacement(
+        event.context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    }
   }
 
   void _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
-    final email = state.email;
-    final password = state.password;
+    final email = event.email;
+    final password = event.password;
 
     emit(
       state.copyWith(
@@ -44,10 +43,34 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
       LoginParams(email: email, password: password),
     );
 
-    result.fold((l) => {
-      emit(state.copyWith(message: 'Login Failed!', formStatus: FormStatus.failure))
-    }, (r) => {
-      emit(state.copyWith(message: 'Login Successful!', formStatus: FormStatus.success))
-    });
+    result.fold(
+      (l) => {
+        emit(
+          state.copyWith(
+            message: 'Login Failed!',
+            formStatus: FormStatus.failure,
+          ),
+        ),
+        showMySnackBar(
+          context: event.context,
+          message: 'Login failed!',
+          color: Colors.red,
+        ),
+      },
+      (r) => {
+        emit(
+          state.copyWith(
+            message: 'Login Successful!',
+            formStatus: FormStatus.success,
+          ),
+        ),
+        showMySnackBar(
+          context: event.context,
+          message: 'Login Successful!',
+          color: Colors.green,
+        ),
+        add(NavigateToDashboardEvent(context: event.context)),
+      },
+    );
   }
 }
