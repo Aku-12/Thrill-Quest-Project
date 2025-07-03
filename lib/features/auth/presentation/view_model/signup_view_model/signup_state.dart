@@ -1,44 +1,50 @@
 import 'package:equatable/equatable.dart';
- 
-enum EmailFormStatus { initial, submitting, success, failure }
- 
+
+enum FormStatus { initial, submitting, success, failure }
+
 class SignupState extends Equatable {
+  final String fName;
+  final String lName;
   final String email;
-  final String fullName;
+  final String phoneNo;
   final String password;
-  final EmailFormStatus emailFormStatus;
-  final String? message;
- 
+  final FormStatus formStatus;
+
   const SignupState({
+    this.fName = '',
+    this.lName = '',
     this.email = '',
-    this.fullName = '',
+    this.phoneNo = '',
     this.password = '',
-    this.emailFormStatus = EmailFormStatus.initial,
-    this.message
+    this.formStatus = FormStatus.initial,
   });
- 
+
   SignupState copyWith({
+    String? fName,
+    String? lName,
     String? email,
-    String? fullName,
+    String? phoneNo,
     String? password,
-    EmailFormStatus? emailFormStatus,
-    String? message
+    FormStatus? formStatus,
+    String? message,
   }) {
     return SignupState(
+      fName: fName ?? this.fName,
+      lName: lName ?? this.lName,
       email: email ?? this.email,
-      fullName: fullName ?? this.fullName,
+      phoneNo: phoneNo ?? this.phoneNo,
       password: password ?? this.password,
-      emailFormStatus: emailFormStatus ?? this.emailFormStatus,
-      message: message ?? this.message
+      formStatus: formStatus ?? this.formStatus,
     );
   }
- 
+
   @override
   List<Object?> get props => [
+    fName,
+    lName,
     email,
-    fullName,
+    phoneNo,
     password,
-    emailFormStatus,
-    message
+    formStatus,
   ];
 }

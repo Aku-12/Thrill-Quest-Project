@@ -1,35 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
- 
+
 abstract class SignupEvent extends Equatable {
   const SignupEvent();
- 
+
   @override
   List<Object?> get props => [];
-}
- 
-class RegisterEmailChanged extends SignupEvent {
-  final String email;
-  const RegisterEmailChanged(this.email);
- 
-  @override
-  List<Object?> get props => [email];
-}
- 
-class RegisterFullNameChanged extends SignupEvent {
-  final String fullName;
-  const RegisterFullNameChanged(this.fullName);
- 
-  @override
-  List<Object?> get props => [fullName];
-}
- 
-class RegisterPasswordChanged extends SignupEvent {
-  final String password;
-  const RegisterPasswordChanged(this.password);
- 
-  @override
-  List<Object?> get props => [password];
 }
 
 class NavigateToLoginEvent extends SignupEvent {
@@ -37,16 +13,26 @@ class NavigateToLoginEvent extends SignupEvent {
 
   const NavigateToLoginEvent({required this.context});
 }
- 
+
 class OnSubmittedEvent extends SignupEvent {
+  final BuildContext context;
+  final String fName;
+  final String lName;
   final String email;
-  final String fullName;
+  final String phoneNo;
   final String password;
- 
-  const OnSubmittedEvent(this.email, this.fullName, this.password);
- 
+
+  const OnSubmittedEvent(
+    this.context,
+    this.fName,
+    this.lName,
+    this.email,
+    this.phoneNo,
+    this.password,
+  );
+
   @override
-  List<Object?> get props => [email, fullName, password];
+  List<Object?> get props => [context, fName, lName, email, phoneNo, password];
 }
- 
+
 class FormReset extends SignupEvent {}
