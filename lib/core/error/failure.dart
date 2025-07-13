@@ -13,6 +13,17 @@ abstract class Failure extends Equatable {
 class LocalDatabaseFailure extends Failure {
   const LocalDatabaseFailure({required super.message});
 }
+
+class RemoteDatabaseFailure extends Failure {
+  final int? statusCode;
+  const RemoteDatabaseFailure({this.statusCode, required super.message});
+}
+
 class ApiFailure extends Failure {
   const ApiFailure({required super.message});
 }
+
+class SharedPreferencesFailure extends Failure {
+  const SharedPreferencesFailure({required super.message});
+}
+
