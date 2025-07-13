@@ -8,11 +8,11 @@ abstract class SignupEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class NavigateToLoginEvent extends SignupEvent {
-  final BuildContext context;
+// class NavigateToLoginEvent extends SignupEvent {
+//   final BuildContext context;
 
-  const NavigateToLoginEvent({required this.context});
-}
+//   // const NavigateToLoginEvent({required this.context});
+// }
 
 class OnSubmittedEvent extends SignupEvent {
   final BuildContext context;
