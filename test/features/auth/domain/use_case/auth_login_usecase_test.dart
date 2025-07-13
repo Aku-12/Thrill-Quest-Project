@@ -1,51 +1,96 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:thrill_quest/core/error/failure.dart';
+import 'package:thrill_quest/features/auth/domain/repository/auth_repository.dart';
 import 'package:thrill_quest/features/auth/domain/use_case/auth_login_usecase.dart';
 
-import 'auth_repo.mock.dart';
+class MockAuthRepository extends Mock implements IAuthRepository {}
 
 void main() {
-  late AuthRepoMock repository;
   late AuthLoginUsecase usecase;
+  late MockAuthRepository mockAuthRepository;
 
   setUp(() {
-    repository = AuthRepoMock();
-    usecase = AuthLoginUsecase(authRepository: repository);
+    mockAuthRepository = MockAuthRepository();
+    usecase = AuthLoginUsecase(authRepository: mockAuthRepository);
   });
 
-  test(
-    "should call [IAuthRepository.loginToAccount] with correct email and password ['ak@gmail.com', 'ak123456']",
-    () async {
+  const tEmail = 'test@example.com';
+  const tPassword = 'password123';
+  const tToken = 'dummy_token';
+
+  const tParams = LoginParams(email: tEmail, password: tPassword);
+
+  group('LoginParams', () {
+    test('default constructor should create correct object', () {
+      const params = LoginParams(email: 'a@a.com', password: 'abc123');
+      expect(params.email, 'a@a.com');
+      expect(params.password, 'abc123');
+    });
+
+    test('initial constructor should create empty email and password', () {
+      const params = LoginParams.initial();
+      expect(params.email, '');
+      expect(params.password, '');
+    });
+
+    test('equality and hashCode should work correctly', () {
+      const p1 = LoginParams(email: 'a', password: 'b');
+      const p2 = LoginParams(email: 'a', password: 'b');
+      const p3 = LoginParams(email: 'x', password: 'y');
+
+      expect(p1, equals(p2));
+      expect(p1.hashCode, equals(p2.hashCode));
+      expect(p1 == p3, isFalse);
+    });
+  });
+
+  group('AuthLoginUsecase', () {
+    test('should call repository loginToAccount and return Right(token)', () async {
       // Arrange
-      when(() => repository.loginToAccount(any(), any())).thenAnswer(
-        (invocation) async {
-          final email = invocation.positionalArguments[0] as String;
-          final password = invocation.positionalArguments[1] as String;
-          if (email == 'ak@gmail.com' && password == 'ak123456') {
-            return const Right('token');
-          } else {
-            return const Left(
-              RemoteDatabaseFailure(message: 'Invalid credentials'),
-            );
-          }
-        },
-      );
+      when(() => mockAuthRepository.loginToAccount(tEmail, tPassword))
+          .thenAnswer((_) async => const Right(tToken));
 
       // Act
-      final result = await usecase(
-        const LoginParams(email: 'ak@gmail.com', password: 'ak123456'),
-      );
+      final result = await usecase(tParams);
 
       // Assert
-      expect(result, const Right('token'));
-      verify(() => repository.loginToAccount('ak@gmail.com', 'ak123456')).called(1);
-      verifyNoMoreInteractions(repository);
-    },
-  );
+      expect(result, equals(const Right(tToken)));
 
-  tearDown(() {
-    reset(repository);
+      verify(() => mockAuthRepository.loginToAccount(tEmail, tPassword)).called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+
+    test('should return Failure when repository loginToAccount fails', () async {
+      // Arrange
+      final tFailure = ApiFailure(message: "Invalid credentials");
+
+      when(() => mockAuthRepository.loginToAccount(tEmail, tPassword))
+          .thenAnswer((_) async => Left(tFailure));
+
+      // Act
+      final result = await usecase(tParams);
+
+      // Assert
+      expect(result, equals(Left(tFailure)));
+
+      verify(() => mockAuthRepository.loginToAccount(tEmail, tPassword)).called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
+
+    test('should handle empty email and password gracefully', () async {
+      const emptyParams = LoginParams.initial();
+
+      when(() => mockAuthRepository.loginToAccount('', ''))
+          .thenAnswer((_) async => const Right("empty_token"));
+
+      final result = await usecase(emptyParams);
+
+      expect(result, equals(const Right("empty_token")));
+
+      verify(() => mockAuthRepository.loginToAccount('', '')).called(1);
+      verifyNoMoreInteractions(mockAuthRepository);
+    });
   });
 }
