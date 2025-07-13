@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thrill_quest/app/service_locator/service_locator.dart';
+// import 'package:thrill_quest/app/service_locator/service_locator.dart';
 import 'package:thrill_quest/core/common/snackbar/my_snack_bar.dart';
 import 'package:thrill_quest/features/auth/domain/use_case/auth_register_usecase.dart';
-import 'package:thrill_quest/features/auth/presentation/view/login_view.dart';
-import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_view_model.dart';
+// import 'package:thrill_quest/features/auth/presentation/view/login_view.dart';
+// import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_view_model.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/signup_view_model/signup_event.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/signup_view_model/signup_state.dart';
 
 class SignupViewModel extends Bloc<SignupEvent, SignupState> {
   final AuthRegisterUsecase _authRegisterUsecase;
+  final void Function({
+    required BuildContext context,
+    required String message,
+    Color? color,
+  })
+  _showSnackbar;
 
-  SignupViewModel(this._authRegisterUsecase) : super(const SignupState()) {
-    on<FormReset>(_onResetForm);
-    on<NavigateToLoginEvent>(_onNavigateToLogin);
+  SignupViewModel(
+    this._authRegisterUsecase, {
+    void Function({
+      required BuildContext context,
+      required String message,
+      Color? color,
+    })?
+    showSnackbar,
+  }) : _showSnackbar = showSnackbar ?? showMySnackBar,
+       super(const SignupState()) {
     on<OnSubmittedEvent>(_onSubmitted);
   }
 
@@ -38,7 +51,7 @@ class SignupViewModel extends Bloc<SignupEvent, SignupState> {
     data.fold(
       (l) {
         emit(state.copyWith(formStatus: FormStatus.failure));
-        showMySnackBar(
+        _showSnackbar(
           context: event.context,
           message: 'Account creation failed!',
           color: Colors.red,
@@ -46,35 +59,12 @@ class SignupViewModel extends Bloc<SignupEvent, SignupState> {
       },
       (r) {
         emit(state.copyWith(formStatus: FormStatus.success));
-        showMySnackBar(
+        _showSnackbar(
           context: event.context,
           message: 'Account successfully created!',
           color: Colors.green,
         );
-        add(NavigateToLoginEvent(context: event.context));
       },
     );
-  }
-
-  void _onResetForm(FormReset event, Emitter<SignupState> emit) {
-    emit(state.copyWith(formStatus: FormStatus.initial, message: ''));
-  }
-
-  void _onNavigateToLogin(
-    NavigateToLoginEvent event,
-    Emitter<SignupState> emit,
-  ) {
-    if (event.context.mounted) {
-      Navigator.push(
-        event.context,
-        MaterialPageRoute(
-          builder:
-              (context) => BlocProvider.value(
-                value: serviceLocator<LoginViewModel>(),
-                child: LoginScreen(),
-              ),
-        ),
-      );
-    }
   }
 }
