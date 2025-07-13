@@ -19,7 +19,4 @@ class LoginSubmitted extends LoginEvent {
   List<Object?> get props => [context, email, password];
 }
 
-class NavigateToDashboardEvent extends LoginEvent {
-  final BuildContext context;
-  const NavigateToDashboardEvent({required this.context});
-}
+

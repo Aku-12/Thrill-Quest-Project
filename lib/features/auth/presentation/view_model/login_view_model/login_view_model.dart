@@ -4,26 +4,27 @@ import 'package:thrill_quest/core/common/snackbar/my_snack_bar.dart';
 import 'package:thrill_quest/features/auth/domain/use_case/auth_login_usecase.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_event.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_state.dart';
-import 'package:thrill_quest/features/home/presentation/view/home_screen.dart';
 
 class LoginViewModel extends Bloc<LoginEvent, LoginState> {
   final AuthLoginUsecase _authLoginUsecase;
+  final void Function({
+    required BuildContext context,
+    required String message,
+    Color? color,
+  })
+  _showSnackbar;
 
-  LoginViewModel(this._authLoginUsecase) : super(LoginState()) {
+  LoginViewModel(
+    this._authLoginUsecase, {
+    void Function({
+      required BuildContext context,
+      required String message,
+      Color? color,
+    })?
+    showSnackbar,
+  }) : _showSnackbar = showSnackbar ?? showMySnackBar,
+       super(LoginState()) {
     on<LoginSubmitted>(_onLoginSubmitted);
-    on<NavigateToDashboardEvent>(_onNavigateToDashboard);
-  }
-
-  void _onNavigateToDashboard(
-    NavigateToDashboardEvent event,
-    Emitter<LoginState> emit,
-  ) {
-    if (event.context.mounted) {
-      Navigator.pushReplacement(
-        event.context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    }
   }
 
   void _onLoginSubmitted(LoginSubmitted event, Emitter<LoginState> emit) async {
@@ -51,7 +52,7 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
             formStatus: FormStatus.failure,
           ),
         ),
-        showMySnackBar(
+        _showSnackbar(
           context: event.context,
           message: 'Login failed!',
           color: Colors.red,
@@ -64,12 +65,11 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
             formStatus: FormStatus.success,
           ),
         ),
-        showMySnackBar(
+        _showSnackbar(
           context: event.context,
           message: 'Login Successful!',
           color: Colors.green,
         ),
-        add(NavigateToDashboardEvent(context: event.context)),
       },
     );
   }
