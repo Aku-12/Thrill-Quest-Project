@@ -8,21 +8,26 @@ part 'user_api_model.g.dart';
 class UserApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? userId;
+
   final String fName;
-  final String lName;
+  final String? lName;
   final String email;
-  final String phoneNo;
-  final String password;
+  final String? phoneNo;
+  final String? password;
   final String? role;
+  final String? profileImage;
+  final List<String>? favorites;
 
   const UserApiModel({
     this.userId,
     required this.fName,
-    required this.lName,
+    this.lName,
     required this.email,
-    required this.phoneNo,
-    required this.password,
+    this.phoneNo,
+    this.password,
     this.role,
+    this.profileImage,
+    this.favorites,
   });
 
   factory UserApiModel.fromJson(Map<String, dynamic> json) =>
@@ -39,20 +44,23 @@ class UserApiModel extends Equatable {
       phoneNo: phoneNo,
       password: password,
       role: role,
+      profileImage: profileImage,
+      favorites: favorites,
     );
   }
 
   factory UserApiModel.fromEntity(UserEntity userEntity) {
-    final user = UserApiModel(
+    return UserApiModel(
+      userId: userEntity.id,
       fName: userEntity.fName,
       lName: userEntity.lName,
       phoneNo: userEntity.phoneNo,
       email: userEntity.email,
       password: userEntity.password,
       role: userEntity.role,
+      profileImage: userEntity.profileImage,
+      favorites: userEntity.favorites,
     );
-
-    return user;
   }
 
   @override
@@ -64,5 +72,7 @@ class UserApiModel extends Equatable {
     email,
     password,
     role,
+    profileImage,
+    favorites,
   ];
 }
