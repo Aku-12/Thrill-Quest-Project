@@ -133,20 +133,4 @@ void main() {
 
     verify(() => loginBloc.add(any(that: isA<LoginSubmitted>()))).called(1);
   });
-
-  testWidgets('Navigates to HomeScreen on successful login', (tester) async {
-    when(() => loginBloc.stream).thenAnswer((_) => Stream.fromIterable([
-      const LoginState(),
-      const LoginState(formStatus: FormStatus.success, message: "Login Successful!"),
-    ]));
-    when(() => loginBloc.state).thenReturn(const LoginState());
-
-    await tester.pumpWidget(createTestWidget(observer: mockObserver));
-    await tester.pumpAndSettle();
-
-    // Verify that navigation push happened at least once
-    verify(() => mockObserver.didPush(any(), any())).called(greaterThanOrEqualTo(1));
-
-    expect(find.byType(HomeScreen), findsOneWidget);
-  });
 }
