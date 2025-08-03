@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_event.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_state.dart';
 import 'package:thrill_quest/features/auth/presentation/view_model/login_view_model/login_view_model.dart';
-import 'package:thrill_quest/features/home/presentation/view/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -19,16 +18,17 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: BlocListener<LoginViewModel, LoginState>(
-          // listenWhen: (previous, current) {
-          //   previous.formStatus == FormStatus
-          // },
-          listener: (context, state){
-            if(state.formStatus == FormStatus.success && state.message =="Login Successful!"){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>HomeScreen()));
+          listener: (context, state) {
+            if (state.formStatus == FormStatus.success &&
+                state.message == "Login Successful!") {
+              Navigator.pushReplacementNamed(context, '/dashboard');
             }
           },
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 32.0,
+            ),
             child: Form(
               key: formKey,
               child: Column(
