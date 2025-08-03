@@ -7,6 +7,7 @@ import 'package:thrill_quest/features/auth/presentation/view_model/login_view_mo
 
 class LoginViewModel extends Bloc<LoginEvent, LoginState> {
   final AuthLoginUsecase _authLoginUsecase;
+
   final void Function({
     required BuildContext context,
     required String message,
@@ -38,38 +39,35 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
       ),
     );
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     final result = await _authLoginUsecase(
       LoginParams(email: email, password: password),
     );
 
     result.fold(
-      (l) => {
+      (l) {
         emit(
-          state.copyWith(
-            message: 'Login Failed!',
-            formStatus: FormStatus.failure,
-          ),
-        ),
+          state.copyWith(message: l.message, formStatus: FormStatus.failure),
+        );
         _showSnackbar(
           context: event.context,
-          message: 'Login failed!',
+          message: l.message,
           color: Colors.red,
-        ),
+        );
       },
-      (r) => {
+      (r) {
         emit(
           state.copyWith(
             message: 'Login Successful!',
             formStatus: FormStatus.success,
           ),
-        ),
+        );
         _showSnackbar(
           context: event.context,
           message: 'Login Successful!',
           color: Colors.green,
-        ),
+        );
       },
     );
   }
