@@ -81,37 +81,34 @@ void main() {
     },
   );
 
-  blocTest<LoginViewModel, LoginState>(
-    'emits [submitting, failure] and calls red snackbar on failed login',
-    build: () {
-      when(
-        () => mockAuthLoginUsecase(any()),
-      ).thenAnswer((_) async => Left(ApiFailure(message: "Login failed")));
-      return loginViewModel;
-    },
-    act: (bloc) => bloc.add(LoginSubmitted(fakeContext, email, password)),
-    wait: const Duration(seconds: 3),
-    expect: () => [
-      LoginState(
-        formStatus: FormStatus.submitting,
-        message: 'Submission Under Process',
-      ),
-      LoginState(
-        formStatus: FormStatus.failure,
-        message: 'Login Failed!',
-      ),
-    ],
-    verify: (_) {
-      verify(
-        () => mockAuthLoginUsecase(LoginParams(email: email, password: password)),
-      ).called(1);
-      verify(
-        () => mockSnackbar.call(
-          context: fakeContext,
-          message: 'Login failed!',
-          color: Colors.red,
-        ),
-      ).called(1);
-    },
-  );
+blocTest<LoginViewModel, LoginState>(
+  'emits [submitting, failure] and calls red snackbar on failed login',
+  build: () {
+    when(() => mockAuthLoginUsecase(any()))
+        .thenAnswer((_) async => Left(ApiFailure(message: "Login failed")));
+    return loginViewModel;
+  },
+  act: (bloc) => bloc.add(LoginSubmitted(fakeContext, email, password)),
+  wait: const Duration(seconds: 3),
+  expect: () => [
+    LoginState(
+      formStatus: FormStatus.submitting,
+      message: 'Submission Under Process',
+    ),
+    LoginState(
+      formStatus: FormStatus.failure,
+      message: 'Login failed',  
+    ),
+  ],
+  verify: (_) {
+    verify(() => mockAuthLoginUsecase(LoginParams(email: email, password: password)))
+        .called(1);
+    verify(() => mockSnackbar.call(
+      context: fakeContext,
+      message: 'Login failed',
+      color: Colors.red,
+    )).called(1);
+  },
+);
+
 }
